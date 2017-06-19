@@ -187,6 +187,23 @@ public class E2eITest {
   }
 
   @Test
+  public void testAgentAbsoluteThreshold() throws Exception {
+    final Process process = createProcessBuilder(heapDumpFolder) //
+        .withJvmArgument("-Xms20m") //
+        .withJvmArgument("-Xmx20m") //
+        .withSystemProperty(Property.LOG_LEVEL.getQualifiedName(), "ERROR") //
+        .withSystemProperty(Property.CHECK_INTERVAL.getQualifiedName(), "10ms") //
+        .withSystemProperty(Property.MAX_HEAP_DUMP_FREQUENCY.getQualifiedName(), "1/3s") //
+        .withSystemProperty(Property.HEAP_MEMORY_USAGE_THRESHOLD.getQualifiedName(), ">2MB") //
+        .withSystemProperty("jma-test.mode", "step_wise_increment") //
+        .withSystemProperty("jma-test.allocation", "500KB") //
+        .withSystemProperty("jma-test.log", "false") //
+        .buildAndRunUntil(heapDumpCreatedIn(heapDumpFolder, 1, TimeUnit.MINUTES));
+
+    assertThat(process.getErr(), hasNoErrors());
+  }
+
+  @Test
   public void testAgentNamePattern() throws Exception {
     final Process process = createProcessBuilder(heapDumpFolder) //
         .withEnvironmentProperty("test_var", "myHeapDump") //

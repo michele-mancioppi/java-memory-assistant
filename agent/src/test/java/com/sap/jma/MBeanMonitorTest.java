@@ -26,8 +26,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.sap.jma.logging.Logger;
-import com.sap.jma.vms.AbsoluteUsageThresholdConditionImpl;
 import com.sap.jma.vms.JavaVirtualMachine;
+import com.sap.jma.vms.PercentageThresholdConditionImpl;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryUsage;
@@ -905,7 +905,7 @@ public class MBeanMonitorTest {
      */
     @Test
     public void testInfiniteNumbersOfDecimals() throws Exception {
-      new AbsoluteUsageThresholdConditionImpl() {
+      new PercentageThresholdConditionImpl() {
         protected String getMemoryPoolName() {
           return "Test";
         }
